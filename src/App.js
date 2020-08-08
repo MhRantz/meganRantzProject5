@@ -15,6 +15,7 @@ class App extends Component {
     super();
     this.state = {
       bestSellers: [],
+      subBooksList: [],
       toRead: [],
       active: false
     }
@@ -47,6 +48,20 @@ class App extends Component {
         toRead: updateToRead
       })
     })
+    this.secondCall("hardcover-nonfiction");
+  }
+
+  secondCall = (keyword) => {
+    axios({
+      url: `https://api.nytimes.com/svc/books/v3/lists/${keyword}.json?api-key=h1My3UlUBaurlTOmJjJ7RJPQJSDlH0lI`,
+      method: `GET`,
+      responseType: `json`,
+    })
+      .then((response) => {
+        this.setState({
+          subBooksList: response.data.results.books
+        })
+      });
   }
 
   ///When Stack is pressed on book, add it to the database list of your stacked books to read
@@ -90,7 +105,7 @@ class App extends Component {
           <Header />
         </header>
         <aside className={`is${this.state.active}`}>
-          <div className="yourToReadParent">
+          <div className="yourStackParent">
 
             {/*Throw your saved books stack onto the page if Div is opened*/
               this.state.toRead.map((book) => {
@@ -120,6 +135,28 @@ class App extends Component {
               })
             }
           </div>
+          <h3>The Lists.</h3>
+          <div className="subBookListNames">
+            <button onClick={() => this.secondCall("hardcover-nonfiction")}>Non-Fiction</button>
+            <button onClick={() => this.secondCall("young-adult")}>Young Adult</button>
+            <button onClick={() => this.secondCall("education")}>Education</button>
+            <button onClick={() => this.secondCall("food-and-fitness")}>Food and Fitness</button>
+            <button onClick={() => this.secondCall("science")}>Science</button>
+          </div>
+          <div className="bestSellers">
+            {
+              this.state.subBooksList.map((book) => {
+                return <BestSeller
+                  key={book.primary_isbn13}
+                  bookImg={book.book_image}
+                  title={book.title}
+                  author={book.author}
+                  addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
+                /> //End of New York Times Best Sellers JSX
+              })
+            }
+          </div>
+
         </section>
       </div>
     );
