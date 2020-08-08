@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
+import Header from './Header';
 import BestSeller from './BestSeller';
+import YourStack from './YourStack';
 import axios from 'axios';
 import firebase from './firebase';
 import './App.scss';
@@ -12,12 +15,14 @@ class App extends Component {
     super();
     this.state = {
       bestSellers: [],
-      toRead: []
+      toRead: [],
+      active: false
     }
   }
   /////////////////////////////////////////////////////////////////////
   //~~~~~~~~~~~~~~~~~~~~~~~~THE FUNCTIONS~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////
+
   // Call API for NY times best sells and exchange data with firebase lists
   componentDidMount() {
     axios({
@@ -29,15 +34,14 @@ class App extends Component {
         this.setState({
           bestSellers: response.data.results.books
         })
-        console.log(this.state.bestSellers);
       });
-    //FIREBASE SET UP
-    const dbRef = firebase.database().ref();
-    dbRef.on('value', (snapshot) => {
+    //Firebase Set up For Books Still To Be Read
+    const dbRefToRead = firebase.database().ref('toRead');
+    dbRefToRead.on('value', (snapshot) => {
       const data = snapshot.val();
       const updateToRead = [];
-      for (let bookObj in data) {
-        updateToRead.push(data[bookObj])
+      for (let key in data) {
+        updateToRead.push({ key: key, data: data[key] })
       }
       this.setState({
         toRead: updateToRead
@@ -45,15 +49,31 @@ class App extends Component {
     })
   }
 
-  addToRead = (title, author, url) => {
+  ///When Stack is pressed on book, add it to the database list of your stacked books to read
+  addToRead = (isbn, title, author, url) => {
     const book = {
+      isbn: isbn,
       title: title,
       author: author,
       url: url
     }
-    console.log(book);
+    const dbRefToRead = firebase.database().ref('toRead');
+    dbRefToRead.push(book);
   }
 
+  ///When Remove is pressed on a stacked book remove it from the database list of stacked books
+  unstack = (dbKey) => {
+    const dbRefToRead = firebase.database().ref('toRead');
+    dbRefToRead.child(dbKey).remove();
+  }
+
+  //changing the activation of the your stack window to control spacing on page
+  activeChange = () => {
+    const currentActive = this.state.active;
+    this.setState(
+      { active: !currentActive }
+    )
+  }
   /////////////////////////////////////////////////////////////////////
   //~~~~~~~~~~~~~~~~~~~~~~~~THE RENDER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////
@@ -61,21 +81,42 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <h1>Tsundoku.</h1>
+        <Nav
+          activeStatus={this.state.active}
+          stackSize={this.state.toRead.length}
+          activeChange={() => this.activeChange()}
+        />
+        <header>
+          <Header />
+        </header>
+        <aside className={`is${this.state.active}`}>
+          <div className="yourToReadParent">
 
-        <section >
-          <h2>Best Sellers</h2>
-          {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/}
+            {/*Throw your saved books stack onto the page if Div is opened*/
+              this.state.toRead.map((book) => {
+                return <YourStack
+                  key={book.key}
+                  bookImg={book.data.url}
+                  title={book.data.title}
+                  author={book.data.author}
+                  unstack={() => this.unstack(book.key)}
+                /> //End of Your Stack JSX
+              })
+            }
+          </div>
+        </aside>
+        <section className={`is${this.state.active}`}>
+          <h3>Trending.</h3>
           <div className="bestSellers">
-            {
-              this.state.bestSellers.map((book, index) => {
+            {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/
+              this.state.bestSellers.map((book) => {
                 return <BestSeller
-                  key={index}
+                  key={book.primary_isbn13}
                   bookImg={book.book_image}
                   title={book.title}
                   author={book.author}
-                  addToRead={() => this.addToRead(book.title, book.author, book.book_image)}
-                />
+                  addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
+                /> //End of New York Times Best Sellers JSX
               })
             }
           </div>
@@ -90,7 +131,6 @@ export default App;
 
 //MVP have a short list of books to select from to choose a reading list
 
-///--have button to add to reading list watch for button press 
 // and push the book to the to-read-array and .map it into a different component
 ///--inside the list have the option to remove a book from the to-read-array 
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class BestSeller extends Component {
     render() {
         return (
-            <div className="bestSellerBook">
+            <div tabindex="0" id={this.props.isbn} className="bestSellerBook">
                 <div>
                     <img src={this.props.bookImg} alt={`${this.props.title} cover art`} />
                     <button onClick={this.props.addToRead}>Stack</button>
