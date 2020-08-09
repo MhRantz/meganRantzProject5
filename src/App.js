@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from './Nav';
 import Header from './Header';
+import HowTo from './HowTo';
 import BestSeller from './BestSeller';
 import YourStack from './YourStack';
 import FinishedStack from './FinishedStack';
@@ -22,7 +23,8 @@ class App extends Component {
       subBooksList: [],
       toRead: [],
       finishedBooks: [],
-      active: false
+      active: false,
+      how: false
     }
   }
   /////////////////////////////////////////////////////////////////////
@@ -43,7 +45,7 @@ class App extends Component {
           bestSellers: response.data.results.books
         })
       });
-    //Firebase Set up For Books Still To Be Read
+    //Firebase Set up For Books in Your Stack
     const dbRefToRead = firebase.database().ref('toRead');
     dbRefToRead.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -55,7 +57,7 @@ class App extends Component {
         toRead: updateToRead
       })
     })
-    //Firebase Set up For Books That Have Finished Being Read
+
     const dbRefFinishedBooks = firebase.database().ref('finishedBooks');
     dbRefFinishedBooks.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -131,6 +133,13 @@ class App extends Component {
       { active: !currentActive }
     )
   }
+
+  howTo = () => {
+    const copyHow = this.state.how
+    this.setState(
+      { how: !copyHow }
+    )
+  }
   /////////////////////////////////////////////////////////////////////
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   //THE RENDER
@@ -147,9 +156,12 @@ class App extends Component {
           activeChange={() => this.activeChange()}
         />
 
-        <header>
-          <Header />
-        </header>
+        <header>{
+          this.state.how
+            ? <HowTo howTo={() => this.howTo()} />
+            : <Header howTo={() => this.howTo()} />
+        }</header>
+
 
         <aside className={`is${this.state.active}`}>
           <ul className="yourStackParent">
@@ -181,7 +193,7 @@ class App extends Component {
           </ul>
         </aside>
 
-        <section className={`is${this.state.active}`}>
+        <main className={`is${this.state.active}`}>
           <h3>Trending.</h3>
           <ul className="bestSellers">
             {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/
@@ -223,7 +235,7 @@ class App extends Component {
             }
           </ul>
           <p className="final">Copyright 2020 Megan Rantz</p>
-        </section>
+        </main>
 
         <button className="pageUp"><a href="scrollHere">Top.</a></button>
 

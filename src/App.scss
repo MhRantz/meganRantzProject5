@@ -108,11 +108,15 @@ h1, h3 {
   color: $primeColor;
 }
 
-h2 {
+h2, h4 {
   font-size: 3rem;
   font-weight: 400;
   color: $primeColor;
   width: 400px;
+}
+
+h4 {
+  font-size: 2rem;
 }
 
 h3 {
@@ -202,7 +206,11 @@ header {
   grid-row: 2/3;
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//OPENING HEADER 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 header div {
+  height: 100%;
   display: flex;
   flex-direction: row-reverse;
   
@@ -220,15 +228,33 @@ header div {
     display: flex;
     flex-direction: column;
     margin: 90px 100px 0 0;
-
-    button {
-      font-family: $titleFont;
-      font-size: 2rem;
-      margin-top: 40px;
-      @include button;
-    }
   }
 }
+
+header button {
+  font-family: $titleFont;
+  font-size: 2rem;
+  margin-top: 40px;
+  @include button;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//HOW TO USE HEADER ON HOW TO BUTTON CLICK
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+.howTo {
+  height: calc(100% - 70px - 70px);
+  color: $primeColor;
+  padding: 70px;
+
+  p {
+    font-weight: 400;
+    margin: 20px 0;
+  }
+  li {
+    margin-top: 8px;
+  }
+}
+
 
 /////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -286,12 +312,12 @@ aside.istrue {
 //BOOK LISTS SELECTION SECTION!
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 /////////////////////////////////////////////
-section {
+main {
   grid-column: 1/3;
   grid-row: 4/5;
 }
 
-section.istrue {
+main.istrue {
   grid-column: 1/2;
 }
 
@@ -428,7 +454,7 @@ section.istrue {
       grid-row: 4/5;
   }
 
-  section.istrue {
+  main.istrue {
       display: none;
   }
 
@@ -441,6 +467,15 @@ section.istrue {
   .headerImg {
     display: none;
   }
+  .howTo {
+    height: calc(100% - 30px - 30px);
+    padding: 30px;
+
+    li {
+      margin-top: 8px;
+    }
+  }
+
 }
 
 @media (max-width: 650px) {

@@ -8,7 +8,7 @@ class Nav extends Component {
                 <button id="scrollHere" className={`is${this.props.activeStatus}`} onClick={this.props.activeChange}>
                     <span>{this.props.stackSize}</span>
                     <p>in your stack</p>
-                    <h5>Your Stack</h5>
+                    <h5>Your Stack.</h5>
                 </button>
             </nav>
         )
