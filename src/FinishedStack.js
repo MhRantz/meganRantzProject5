@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class YourStack extends Component {
+class FinishedStack extends Component {
     render() {
         return (
             <div id={this.props.dbKey} className="yourStackBook">
@@ -10,12 +10,11 @@ class YourStack extends Component {
                 <div className="details">
                     <h6>{this.props.title}</h6>
                     <span>{`by ${this.props.author}`}</span>
-                    <button onClick={this.props.readIt}>Read</button>
-                    <button onClick={this.props.unstack}>Remove</button>
+                    <span>Finished</span>
                 </div>
             </div>
         )
     }
 }
 
-export default YourStack;
+export default FinishedStack;

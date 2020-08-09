@@ -4,7 +4,11 @@ class Header extends Component {
     render() {
         return (
             <div>
-                <h2>Manage Your Reading Stack</h2>
+                <div className="headerContent">
+                    <h2>Manage your reading stack all in one place</h2>
+                    <button>Learn How.</button>
+                </div>
+                <div className="headerImg"><img src="./tsunDoka.png" alt="Line Drawing of a Japanese painting of a woman holding a book" /></div>
             </div>
         )
     }
