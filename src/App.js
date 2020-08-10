@@ -3,6 +3,7 @@ import Nav from './Nav';
 import Header from './Header';
 import HowTo from './HowTo';
 import BestSeller from './BestSeller';
+import BookDetails from './BookDetails';
 import YourStack from './YourStack';
 import FinishedStack from './FinishedStack';
 import axios from 'axios';
@@ -20,6 +21,8 @@ class App extends Component {
     super();
     this.state = {
       bestSellers: [],
+      detailedBook: {},
+      getDetail: '',
       subBooksList: [],
       toRead: [],
       finishedBooks: [],
@@ -111,7 +114,30 @@ class App extends Component {
     dbRefToRead.child(dbKey).remove();
   }
 
-  //
+  getDetails = (title, author, url, details, area) => {
+    const copyGetDetail = area;
+    this.setState(
+      { getDetail: copyGetDetail }
+    )
+    this.setState(
+      {
+        detailedBook: {
+          title: title,
+          author: author,
+          url: url,
+          details: details
+        }
+      }
+    )
+  }
+
+  backToBestSeller = () => {
+    this.setState(
+      { getDetail: '' }
+    )
+  }
+
+
   readIt = (isbn) => {
     const copyToRead = this.state.toRead;
     const copyFinishedBooks = this.state.finishedBooks;
@@ -197,15 +223,23 @@ class App extends Component {
           <h3>Trending.</h3>
           <ul className="bestSellers">
             {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/
-              this.state.bestSellers.map((book) => {
-                return <BestSeller
-                  key={book.primary_isbn13}
-                  bookImg={book.book_image}
-                  title={book.title}
-                  author={book.author}
-                  addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
-                /> //End of New York Times Best Sellers JSX
-              })
+              this.state.getDetail === 'bestseller'
+                ? <BookDetails
+                  title={this.state.getDetail.title}
+                  backToBestSeller={() => this.backToBestSeller()}
+                />
+                : this.state.bestSellers.map((book) => {
+                  return <BestSeller
+                    key={book.primary_isbn13}
+                    bookImg={book.book_image}
+                    title={book.title}
+                    author={book.author}
+                    description={book.description}
+                    productURL={book.amazon_product_url}
+                    addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
+                    getDetails={() => this.getDetails(book.title, book.author, book.book_image, book.description, 'bestseller')}
+                  /> //End of New York Times Best Sellers JSX
+                })
             }
           </ul>
 
@@ -223,17 +257,26 @@ class App extends Component {
 
           <ul className="bestSellers">
             {
-              this.state.subBooksList.map((book) => {
-                return <BestSeller
-                  key={book.primary_isbn13}
-                  bookImg={book.book_image}
-                  title={book.title}
-                  author={book.author}
-                  addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
-                /> //End of New York Times Best Sellers JSX
-              })
+              this.state.getDetail === 'theLists'
+                ? <BookDetails
+                  title={this.state.detailedBook.title}
+                  backToBestSeller={() => this.backToBestSeller()}
+                />
+                : this.state.subBooksList.map((book) => {
+                  return <BestSeller
+                    key={book.primary_isbn13}
+                    bookImg={book.book_image}
+                    title={book.title}
+                    author={book.author}
+                    description={book.description}
+                    productURL={book.amazon_product_url}
+                    addToRead={() => this.addToRead(book.primary_isbn13, book.title, book.author, book.book_image)}
+                    getDetails={() => this.getDetails(book.title, book.author, book.book_image, book.description, 'theLists')}
+                  /> //End of New York Times Best Sellers JSX
+                })
             }
           </ul>
+
           <p className="final">Copyright 2020 Megan Rantz</p>
         </main>
 

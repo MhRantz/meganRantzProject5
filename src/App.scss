@@ -73,10 +73,10 @@ $lowLightColor: #F5E3E6;
   color: white;
 }
 
-@mixin button($key: 3px) {
+@mixin button($key: 3px, $color: $primeColor) {
   background: none;
-  color: $primeColor;
-  border: $key solid $primeColor;
+  color: $color;
+  border: $key solid $color;
 
   &:hover {
     @include contrast;
@@ -216,12 +216,12 @@ header div {
   
   .headerImg {
     height: 55vh;
-    width: 325px;
-    margin: 20px 50px 0 0;
+    width: 480px;
+    margin: 20px -90px 0 0;
     
     img {
       height: 55vh;
-      width: 325px;
+      width: 480px;
     }
   }
   .headerContent {
@@ -250,8 +250,13 @@ header button {
     font-weight: 400;
     margin: 20px 0;
   }
+
   li {
     margin-top: 8px;
+  }
+  
+  button {
+    padding: 0 30px;
   }
 }
 
@@ -302,7 +307,7 @@ aside.istrue {
       padding: 4px;
       margin: 10px 10px 0 0;
       width: 70px;
-      @include button(2px);
+      @include button(1px, black);
     }
   }
 }
@@ -352,7 +357,7 @@ main.istrue {
       height: 100%;
     }
 
-    button {
+    .stackButton {
       font-family: $titleFont;
       font-size: 1.75rem;
       line-height: 3rem;
@@ -366,10 +371,48 @@ main.istrue {
     }
   }
 
-  .bestSellerBook:hover button {
+  .bestSellerBook:hover .stackButton {
     display: block;
   }
 
+  .bestSellerBook section {
+    display: none;
+  }
+
+  .getDetails {
+    @include button(1px, black);
+    display: block;
+    width: 60px;
+    margin-top: 5px;
+    font-size: 0.65rem;
+    font-weight: 300;
+    
+    &:hover {
+      background-color: $lowLightColor;
+      border: 1px solid $lowLightColor;
+      color: $primeColor;
+      font-weight: 400;
+    }
+  }
+
+  /////////////////////////////////////////////
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//BOOK DETAILS
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/////////////////////////////////////////////
+
+  .bookDetail {
+    grid-column: 1/-1;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: $lowLightColor;
+    background: linear-gradient(148deg, rgba(255,255,255,1) 30%, rgba(245,227,230,1) 90%);
+  
+    img {
+      width: 400px;
+    }
+  }
 /////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //BANK OF LIST NAME BUTTONS SECTION!
