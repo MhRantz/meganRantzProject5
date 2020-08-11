@@ -1,22 +1,24 @@
 {
   "files": {
-    "main.css": "/meganRantzProject5/static/css/main.fc877719.chunk.css",
-    "main.js": "/meganRantzProject5/static/js/main.af524ce4.chunk.js",
-    "main.js.map": "/meganRantzProject5/static/js/main.af524ce4.chunk.js.map",
+    "main.css": "/meganRantzProject5/static/css/main.702809a4.chunk.css",
+    "main.js": "/meganRantzProject5/static/js/main.125e467e.chunk.js",
+    "main.js.map": "/meganRantzProject5/static/js/main.125e467e.chunk.js.map",
     "runtime-main.js": "/meganRantzProject5/static/js/runtime-main.a1e2914e.js",
     "runtime-main.js.map": "/meganRantzProject5/static/js/runtime-main.a1e2914e.js.map",
-    "static/js/2.6493abbe.chunk.js": "/meganRantzProject5/static/js/2.6493abbe.chunk.js",
-    "static/js/2.6493abbe.chunk.js.map": "/meganRantzProject5/static/js/2.6493abbe.chunk.js.map",
+    "static/js/2.f30c2664.chunk.js": "/meganRantzProject5/static/js/2.f30c2664.chunk.js",
+    "static/js/2.f30c2664.chunk.js.map": "/meganRantzProject5/static/js/2.f30c2664.chunk.js.map",
     "index.html": "/meganRantzProject5/index.html",
-    "precache-manifest.27cb005e8b1c6ce162c110d5254afab8.js": "/meganRantzProject5/precache-manifest.27cb005e8b1c6ce162c110d5254afab8.js",
+    "precache-manifest.fe53611d3138b1f22dc50af81577d072.js": "/meganRantzProject5/precache-manifest.fe53611d3138b1f22dc50af81577d072.js",
     "service-worker.js": "/meganRantzProject5/service-worker.js",
-    "static/css/main.fc877719.chunk.css.map": "/meganRantzProject5/static/css/main.fc877719.chunk.css.map",
-    "static/js/2.6493abbe.chunk.js.LICENSE.txt": "/meganRantzProject5/static/js/2.6493abbe.chunk.js.LICENSE.txt"
+    "static/css/main.702809a4.chunk.css.map": "/meganRantzProject5/static/css/main.702809a4.chunk.css.map",
+    "static/js/2.f30c2664.chunk.js.LICENSE.txt": "/meganRantzProject5/static/js/2.f30c2664.chunk.js.LICENSE.txt",
+    "static/media/tsunDoka.png": "/meganRantzProject5/static/media/tsunDoka.c051595d.png",
+    "static/media/tsunDoka2.png": "/meganRantzProject5/static/media/tsunDoka2.27115788.png"
   },
   "entrypoints": [
     "static/js/runtime-main.a1e2914e.js",
-    "static/js/2.6493abbe.chunk.js",
-    "static/css/main.fc877719.chunk.css",
-    "static/js/main.af524ce4.chunk.js"
+    "static/js/2.f30c2664.chunk.js",
+    "static/css/main.702809a4.chunk.css",
+    "static/js/main.125e467e.chunk.js"
   ]
 }
