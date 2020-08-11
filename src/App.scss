@@ -209,27 +209,29 @@ header {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //OPENING HEADER 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-header div {
+header section {
   height: 100%;
   display: flex;
   flex-direction: row-reverse;
+}
+
+.headerImg {
+  height: 55vh;
+  width: 480px;
+  margin: 20px -90px 0 0;
   
-  .headerImg {
+  img {
     height: 55vh;
     width: 480px;
-    margin: 20px -90px 0 0;
-    
-    img {
-      height: 55vh;
-      width: 480px;
-    }
-  }
-  .headerContent {
-    display: flex;
-    flex-direction: column;
-    margin: 90px 100px 0 0;
   }
 }
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  margin: 90px 100px 0 0;
+}
+
 
 header button {
   font-family: $titleFont;
@@ -332,20 +334,21 @@ main.istrue {
   grid-template-rows: repeat(1fr);
   grid-gap: 25px;
   justify-items: center;
+}
 
-  .bestSellerBook {
-    width: 200px;
+.bestSellerBook {
+  width: 200px;
 
-    h6 {
-      font-size: 0.8rem;
-      margin-top: 4px;
-    }
+  h6 {
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
 
-    span {
-      font-size: 0.75rem;
-    }
+  span {
+    font-size: 0.75rem;
   }
 }
+
 
 .bestSellerBook div {
     width: 100%;
@@ -401,17 +404,62 @@ main.istrue {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 /////////////////////////////////////////////
 
-  .bookDetail {
+  .bookDetailParent {
     grid-column: 1/-1;
     display: flex;
-    justify-content: flex-end;
     width: 100%;
     background-color: $lowLightColor;
-    background: linear-gradient(148deg, rgba(255,255,255,1) 30%, rgba(245,227,230,1) 90%);
-  
-    img {
-      width: 400px;
+    background: linear-gradient(148deg, rgba(255,255,255,1) 30%, rgba(245,227,230,1) 90%); 
+    position: relative;
+  }
+  .bookDetailContents .bestSellerBook {
+    width: 100%;
+  }
+
+  .bookDetailContents {
+    display: flex;
+    width: 70%;
+    margin: 100px 0 200px 40px;
+   
+
+    div:nth-of-type(1) {
+      width: 300px;
+      height: 425px;
+
+      img {
+        width: 300px;
+        height: 425px;
+      }
     }
+
+    div:nth-of-type(2) {
+      margin-left: 20px;
+
+      h4 {
+        margin-top: 20px;
+      }
+
+      button {
+        @include button;
+        font-family: $titleFont;
+        font-size: 1.5rem;
+        padding: 0 20px;
+        margin: 20px 0;
+      }
+    }
+
+    span {
+      display: block;
+      margin: 10px 0;
+      font-size: 1.25rem;
+    }
+  }
+
+  .tSun {
+    height: 400px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
   }
 /////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -473,8 +521,8 @@ main.istrue {
     font-size: 2rem;
     width: 300px;
   }
-
-  header div .headerContent {
+  
+  .headerContent {
   margin: 130px 50px 0 0;
     button {
       font-size: 1.5rem;
@@ -488,7 +536,7 @@ main.istrue {
     h5 {
       display: block;
       font-family: $titleFont;
-      font-size: 2rem;
+      font-size: 1.25rem;
     }
 }
 
@@ -504,12 +552,29 @@ main.istrue {
 }
 
 @media (max-width: 830px) {
-  header div {
+  header section {
     justify-content: center;
+    
+    position: relative;
   }
+
   .headerImg {
-    display: none;
+    position: absolute;
+    bottom: 5px;
+    right: 100px;
+    width: 250px;
+    height: 300px;
+
+    img{
+      width: 250px;
+      height: 300px;
+    }
   }
+
+  .headerContent {
+    margin: 70px 0 0 0;
+  }
+
   .howTo {
     height: calc(100% - 30px - 30px);
     padding: 30px;
@@ -526,8 +591,6 @@ main.istrue {
       margin: 0 15px;
       grid-template-rows: 100px 45px 67vh 1fr;
   }
-
-  
   
   nav button {
       position: absolute;
@@ -541,6 +604,12 @@ main.istrue {
           width: 100%;
           margin: 0;
       }
+  }
+
+  nav button.istrue {
+    h5 {
+      font-size: 2rem;
+    }
   }
 
   .pageUp {

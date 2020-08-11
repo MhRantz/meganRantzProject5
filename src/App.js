@@ -48,6 +48,20 @@ class App extends Component {
           bestSellers: response.data.results.books
         })
       });
+
+    const dbRefFinishedBooks = firebase.database().ref('finishedBooks');
+    dbRefFinishedBooks.on('value', (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+      const updateFinishedBooks = [];
+      for (let key in data) {
+        updateFinishedBooks.push({ key: key, data: data[key] })
+      }
+      this.setState({
+        finishedBooks: updateFinishedBooks
+      })
+    })
+
     //Firebase Set up For Books in Your Stack
     const dbRefToRead = firebase.database().ref('toRead');
     dbRefToRead.on('value', (snapshot) => {
@@ -58,18 +72,6 @@ class App extends Component {
       }
       this.setState({
         toRead: updateToRead
-      })
-    })
-
-    const dbRefFinishedBooks = firebase.database().ref('finishedBooks');
-    dbRefFinishedBooks.on('value', (snapshot) => {
-      const data = snapshot.val();
-      const updateFinishedBooks = [];
-      for (let key in data) {
-        updateFinishedBooks.push({ key: key, data: data[key] })
-      }
-      this.setState({
-        finishedBooks: updateFinishedBooks
       })
     })
 
@@ -104,7 +106,6 @@ class App extends Component {
     let findBook = copyToRead.find(book => book.data.isbn === isbn)
     if (!findBook) {
       dbRefToRead.push(book);
-      console.log(findBook);
     }
   }
 
@@ -114,7 +115,7 @@ class App extends Component {
     dbRefToRead.child(dbKey).remove();
   }
 
-  getDetails = (title, author, url, details, area) => {
+  getDetails = (title, author, url, description, area) => {
     const copyGetDetail = area;
     this.setState(
       { getDetail: copyGetDetail }
@@ -125,7 +126,7 @@ class App extends Component {
           title: title,
           author: author,
           url: url,
-          details: details
+          description: description
         }
       }
     )
@@ -136,7 +137,6 @@ class App extends Component {
       { getDetail: '' }
     )
   }
-
 
   readIt = (isbn) => {
     const copyToRead = this.state.toRead;
@@ -225,7 +225,10 @@ class App extends Component {
             {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/
               this.state.getDetail === 'bestseller'
                 ? <BookDetails
-                  title={this.state.getDetail.title}
+                  url={this.state.detailedBook.url}
+                  title={this.state.detailedBook.title}
+                  author={this.state.detailedBook.author}
+                  description={this.state.detailedBook.description}
                   backToBestSeller={() => this.backToBestSeller()}
                 />
                 : this.state.bestSellers.map((book) => {
@@ -259,7 +262,10 @@ class App extends Component {
             {
               this.state.getDetail === 'theLists'
                 ? <BookDetails
+                  url={this.state.detailedBook.url}
                   title={this.state.detailedBook.title}
+                  author={this.state.detailedBook.author}
+                  description={this.state.detailedBook.description}
                   backToBestSeller={() => this.backToBestSeller()}
                 />
                 : this.state.subBooksList.map((book) => {
