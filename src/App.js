@@ -6,6 +6,7 @@ import BestSeller from './BestSeller';
 import BookDetails from './BookDetails';
 import YourStack from './YourStack';
 import FinishedStack from './FinishedStack';
+import listNames from './extra.js';
 import axios from 'axios';
 import firebase from './firebase';
 import './App.scss';
@@ -27,7 +28,8 @@ class App extends Component {
       toRead: [],
       finishedBooks: [],
       active: false,
-      how: false
+      how: false,
+      whichStack: true
     }
   }
   /////////////////////////////////////////////////////////////////////
@@ -78,8 +80,6 @@ class App extends Component {
     this.secondCall("hardcover-nonfiction");
   }
   ///////////END OF COMPONENT DID MOUNT
-
-
 
   ///Second Api Call for the other lists from NY Times - button bank supplying keyword list name
   secondCall = (keyword) => {
@@ -143,13 +143,17 @@ class App extends Component {
   //On click of "Read" change status of the book from in stack to the finished books list
   readIt = (isbn) => {
     const copyToRead = this.state.toRead;
-    const copyFinishedBooks = this.state.finishedBooks;
+    const copyFinishedBooks = [...this.state.finishedBooks];
     const dbRefToRead = firebase.database().ref('toRead');
     const dbRefFinished = firebase.database().ref('finishedBooks');
     //finding the full book object in the current array, then pushing it to Finished Books, removing it from toRead on DB and pushing it to Finished
     let book = copyToRead.find(book => book.data.isbn === isbn)
+    console.log(book);
     dbRefFinished.push(book.data);
     dbRefToRead.child(book.key).remove();
+
+    copyFinishedBooks.push(book);
+
     this.setState(
       { finishedBooks: copyFinishedBooks }
     )
@@ -194,33 +198,42 @@ class App extends Component {
 
 
         <aside className={`is${this.state.active}`}>
-          <ul className="yourStackParent">
-            {/*Throw your saved books stack onto the page if Div is opened*/
-              this.state.toRead.map((book) => {
-                return <YourStack
-                  key={book.key}
-                  bookImg={book.data.url}
-                  title={book.data.title}
-                  author={book.data.author}
-                  unstack={() => this.unstack(book.key)}
-                  readIt={() => this.readIt(book.data.isbn)}
-                /> //End of Your Stack JSX
-              })
-            }
-          </ul>
+          <div className="whichStack" >
+            <button onClick={() => this.setState({ whichStack: true })}>Stack</button>
+            <button onClick={() => this.setState({ whichStack: false })}>Finished</button>
+          </div>
+          {
+            this.state.whichStack
+              ? <ul className="yourStackParent">
+                {/*Throw your saved books stack onto the page if Div is opened*/
+                  this.state.toRead.map((book) => {
+                    return <YourStack
+                      key={book.key}
+                      bookImg={book.data.url}
+                      title={book.data.title}
+                      author={book.data.author}
+                      unstack={() => this.unstack(book.key)}
+                      readIt={() => this.readIt(book.data.isbn)}
+                    /> //End of Your Stack JSX
+                  })
+                }
+              </ul>
+              : <ul className="yourStackParent">
+                {/*Throw your already read/finished books stack onto the page if Div is opened and Finished button is pressed*/
+                  this.state.finishedBooks.map((book) => {
+                    return <FinishedStack
+                      key={book.key}
+                      bookImg={book.data.url}
+                      title={book.data.title}
+                      author={book.data.author}
+                    /> //End of Your Stack JSX
+                  })
+                }
+              </ul>
+          }
 
-          <ul className="yourStackParent">
-            {/*Throw your already read/finished books stack onto the page if Div is opened and Finished button is pressed*/
-              this.state.finishedBooks.map((book) => {
-                return <FinishedStack
-                  key={book.key}
-                  bookImg={book.data.url}
-                  title={book.data.title}
-                  author={book.data.author}
-                /> //End of Your Stack JSX
-              })
-            }
-          </ul>
+
+
         </aside>
 
         <main className={`is${this.state.active}`}>
@@ -253,13 +266,11 @@ class App extends Component {
           <h3>The Lists.</h3>
 
           <div className="subBookListNames">
-            <button onClick={() => this.secondCall("hardcover-nonfiction")}>Non-Fiction</button>
-            <button onClick={() => this.secondCall("young-adult")}>Young Adult</button>
-            <button onClick={() => this.secondCall("hardcover-graphic-books")}>Graphic Novels</button>
-            <button onClick={() => this.secondCall("food-and-fitness")}>Food and Fitness</button>
-            <button onClick={() => this.secondCall("travel")}>Travel</button>
-            <button onClick={() => this.secondCall("education")}>Education</button>
-            <button onClick={() => this.secondCall("science")}>Science</button>
+            {
+              listNames.map((list) => {
+                return <button onClick={() => this.secondCall(list.query)}>{list.name}</button>
+              })
+            }
           </div>
 
           <ul className="bestSellers">
