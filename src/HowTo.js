@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class HowTo extends Component {
     render() {
         return (
-            <section className="howTo">
+            <div className="howTo">
                 <h4>How To Get Started with Tsundoku</h4>
                 <p>Tsundoku means 'reading pile', and refers to the stack of books in your home that you have yet to read. With Tsundoku you can keep track of your reading stack easily.</p>
                 <ul>
@@ -13,7 +13,7 @@ class HowTo extends Component {
                     <li>Mark off books as read and view a full list of books you've read</li>
                 </ul>
                 <button onClick={this.props.howTo}>Back.</button>
-            </section>
+            </div>
         )
     }
 }

@@ -77,6 +77,9 @@ class App extends Component {
 
     this.secondCall("hardcover-nonfiction");
   }
+  ///////////END OF COMPONENT DID MOUNT
+
+
 
   ///Second Api Call for the other lists from NY Times - button bank supplying keyword list name
   secondCall = (keyword) => {
@@ -116,9 +119,8 @@ class App extends Component {
   }
 
   getDetails = (title, author, url, description, area) => {
-    const copyGetDetail = area;
     this.setState(
-      { getDetail: copyGetDetail }
+      { getDetail: area }
     )
     this.setState(
       {
@@ -131,13 +133,14 @@ class App extends Component {
       }
     )
   }
-
+  //Get back from details
   backToBestSeller = () => {
     this.setState(
       { getDetail: '' }
     )
   }
 
+  //On click of "Read" change status of the book from in stack to the finished books list
   readIt = (isbn) => {
     const copyToRead = this.state.toRead;
     const copyFinishedBooks = this.state.finishedBooks;
@@ -160,6 +163,7 @@ class App extends Component {
     )
   }
 
+  //Toggle from main header to the how to menu and back 
   howTo = () => {
     const copyHow = this.state.how
     this.setState(
@@ -182,7 +186,7 @@ class App extends Component {
           activeChange={() => this.activeChange()}
         />
 
-        <header>{
+        <header>{//based on click of the learn more button/ back render main header or the how to window
           this.state.how
             ? <HowTo howTo={() => this.howTo()} />
             : <Header howTo={() => this.howTo()} />
