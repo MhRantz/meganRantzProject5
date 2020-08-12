@@ -51,6 +51,7 @@ class App extends Component {
         })
       });
 
+    //Firebase Set up For Books in FinishedBooks
     const dbRefFinishedBooks = firebase.database().ref('finishedBooks');
     dbRefFinishedBooks.on('value', (snapshot) => {
       const data = snapshot.val();
@@ -174,6 +175,7 @@ class App extends Component {
       { how: !copyHow }
     )
   }
+
   /////////////////////////////////////////////////////////////////////
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   //THE RENDER
@@ -310,10 +312,3 @@ class App extends Component {
 
 
 export default App;
-
-
-//Stretch 
-//--be able to mark a book on the list as read, rate it
-//--pretty with nice animations
-//--return a longer description of the books
-//-- and find a way to have the book take up more space in the grid dynamically to read the details
