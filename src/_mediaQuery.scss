@@ -91,6 +91,14 @@
             height: 300px;
         }
     }
+
+    .whichStack {
+        margin: 50px 20px;
+        
+        button {
+            font-size: 1.5rem;
+        }
+    }
   
     .headerContent {
         margin: 70px 0 0 0;
@@ -131,7 +139,7 @@
             height: 275px;
         }
     }
-å
+
     nav button {
         position: absolute;
         top: calc(80px + 30px + 63vh);
