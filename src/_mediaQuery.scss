@@ -68,6 +68,10 @@
     main.istrue {
         display: none;
     }
+
+    .howTo {
+        padding: 30px;
+    }
   }//END 1030
 
 /////////////////////////////////////
@@ -106,7 +110,6 @@
   
     .howTo {
         height: calc(100% - 30px - 30px);
-        padding: 30px;
     
         li {
             margin-top: 8px;
@@ -131,12 +134,12 @@
         position: absolute;
         bottom: 5px;
         right: 100px;
-        width: 225px;
-        height: 275px;
+        width: 200px;
+        height: 225px;
     
         img{
-            width: 225px;
-            height: 275px;
+            width: 200px;
+            height: 225px;
         }
     }
 

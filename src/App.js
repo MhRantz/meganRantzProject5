@@ -38,8 +38,8 @@ class App extends Component {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
   /////////////////////////////////////////////////////////////////////
 
-  // Call API for NY times best sells and exchange data with firebase lists
   componentDidMount() {
+    // Call API for NY times best seller books and exchange data with firebase lists
     axios({
       url: `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=h1My3UlUBaurlTOmJjJ7RJPQJSDlH0lI`,
       method: `GET`,
@@ -55,7 +55,6 @@ class App extends Component {
     const dbRefFinishedBooks = firebase.database().ref('finishedBooks');
     dbRefFinishedBooks.on('value', (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
       const updateFinishedBooks = [];
       for (let key in data) {
         updateFinishedBooks.push({ key: key, data: data[key] })
@@ -77,10 +76,9 @@ class App extends Component {
         toRead: updateToRead
       })
     })
-
+    //Calling the second API call to fill the second grid when component mounts with default selection
     this.secondCall("hardcover-nonfiction");
-  }
-  ///////////END OF COMPONENT DID MOUNT
+  }///////////END OF COMPONENT DID MOUNT
 
   ///Second Api Call for the other lists from NY Times - button bank supplying keyword list name
   secondCall = (keyword) => {
@@ -104,12 +102,18 @@ class App extends Component {
       author: author,
       url: url
     }
+
     const dbRefToRead = firebase.database().ref('toRead');
     const copyToRead = this.state.toRead;
+    const copyFinishedBooks = this.state.finishedBooks;
+
     //Looking to see if the Stacked book will be a duplicate in the array of books in stack, and only pushing if not found
     let findBook = copyToRead.find(book => book.data.isbn === isbn)
     if (!findBook) {
-      dbRefToRead.push(book);
+      let findBookHere = copyFinishedBooks.find(book => book.data.isbn === isbn)
+      if (!findBookHere) {
+        dbRefToRead.push(book);
+      }
     }
   }
 
@@ -119,6 +123,8 @@ class App extends Component {
     dbRefToRead.child(dbKey).remove();
   }
 
+  //Showing the details page with the book description for a selected book, 
+  //setting the state with the details of the selected book since the event isn't on the whole object
   getDetails = (title, author, url, description, area) => {
     this.setState(
       { getDetail: area }
@@ -133,8 +139,17 @@ class App extends Component {
         }
       }
     )
+    //Scroll to the top of the correct details location
+    if (area === 'bestseller') {
+      const topElement = document.getElementById('bestSellers');
+      topElement.scrollIntoView({ behavior: "smooth" });
+    } else {
+      const bottomElement = document.getElementById('theLists');
+      bottomElement.scrollIntoView({ behavior: "smooth" });
+    }
   }
-  //Get back from details
+
+  //Get back from details to main book lists
   backToBestSeller = () => {
     this.setState(
       { getDetail: '' }
@@ -149,7 +164,6 @@ class App extends Component {
     const dbRefFinished = firebase.database().ref('finishedBooks');
     //finding the full book object in the current array, then pushing it to Finished Books, removing it from toRead on DB and pushing it to Finished
     let book = copyToRead.find(book => book.data.isbn === isbn)
-    console.log(book);
     dbRefFinished.push(book.data);
     dbRefToRead.child(book.key).remove();
 
@@ -174,6 +188,12 @@ class App extends Component {
     this.setState(
       { how: !copyHow }
     )
+  }
+
+  //Scroll to top function so that the page doesn't reset
+  scrollFun = (here) => {
+    const stack = document.getElementById('scrollHere');
+    stack.scrollIntoView({ behavior: "smooth" });
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -204,23 +224,9 @@ class App extends Component {
             <button onClick={() => this.setState({ whichStack: true })}>Stack</button>
             <button onClick={() => this.setState({ whichStack: false })}>Finished</button>
           </div>
-          {
-            this.state.whichStack
+          {///based on button selection of either your book stack or your finished books map the corresponding list to the page
+            !this.state.whichStack
               ? <ul className="yourStackParent">
-                {/*Throw your saved books stack onto the page if Div is opened*/
-                  this.state.toRead.map((book) => {
-                    return <YourStack
-                      key={book.key}
-                      bookImg={book.data.url}
-                      title={book.data.title}
-                      author={book.data.author}
-                      unstack={() => this.unstack(book.key)}
-                      readIt={() => this.readIt(book.data.isbn)}
-                    /> //End of Your Stack JSX
-                  })
-                }
-              </ul>
-              : <ul className="yourStackParent">
                 {/*Throw your already read/finished books stack onto the page if Div is opened and Finished button is pressed*/
                   this.state.finishedBooks.map((book) => {
                     return <FinishedStack
@@ -232,6 +238,25 @@ class App extends Component {
                   })
                 }
               </ul>
+              : this.state.toRead.length > 0
+                //if your stack has at least one book, display the books 
+                ? <ul className="yourStackParent">
+                  <p>So far you've finished <span>{this.state.finishedBooks.length}</span> books</p>
+                  {//mapping to read stack onto the page 
+                    this.state.toRead.map((book) => {
+                      return <YourStack
+                        key={book.key}
+                        bookImg={book.data.url}
+                        title={book.data.title}
+                        author={book.data.author}
+                        unstack={() => this.unstack(book.key)}
+                        readIt={() => this.readIt(book.data.isbn)}
+                      /> //End of Your Stack JSX
+                    })
+                  }</ul>//v display that stack is empty if length of array is 0 
+                : <div className="stackEmpty"><p>Your list is empty. Stack some books to read.</p>
+                  <p>So far you've finished <span>{this.state.finishedBooks.length}</span> books</p></div>
+
           }
 
 
@@ -239,7 +264,7 @@ class App extends Component {
         </aside>
 
         <main className={`is${this.state.active}`}>
-          <h3>Trending.</h3>
+          <h3 id="bestSellers">Trending.</h3>
           <ul className="bestSellers">
             {/*New Times Best Sellers Results from API call, mapping to show each book on grid*/
               this.state.getDetail === 'bestseller'
@@ -269,13 +294,13 @@ class App extends Component {
 
           <div className="subBookListNames">
             {
-              listNames.map((list) => {
-                return <button onClick={() => this.secondCall(list.query)}>{list.name}</button>
+              listNames.map((list, index) => {
+                return <button onClick={() => this.secondCall(list.query)} key={index}>{list.name}</button>
               })
             }
           </div>
 
-          <ul className="bestSellers">
+          <ul id="theLists" className="bestSellers">
             {
               this.state.getDetail === 'theLists'
                 ? <BookDetails
@@ -303,7 +328,7 @@ class App extends Component {
           <p className="final">Copyright 2020 Megan Rantz</p>
         </main>
 
-        <button className="pageUp"><a href="scrollHere">Top.</a></button>
+        <button className="pageUp" onClick={this.scrollFun}><a>Top.</a></button>
 
       </div>
     );
