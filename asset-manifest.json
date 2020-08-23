@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/meganRantzProject5/static/css/main.280ba3a8.chunk.css",
-    "main.js": "/meganRantzProject5/static/js/main.70a37ee7.chunk.js",
-    "main.js.map": "/meganRantzProject5/static/js/main.70a37ee7.chunk.js.map",
-    "runtime-main.js": "/meganRantzProject5/static/js/runtime-main.a1e2914e.js",
-    "runtime-main.js.map": "/meganRantzProject5/static/js/runtime-main.a1e2914e.js.map",
-    "static/js/2.a102beab.chunk.js": "/meganRantzProject5/static/js/2.a102beab.chunk.js",
-    "static/js/2.a102beab.chunk.js.map": "/meganRantzProject5/static/js/2.a102beab.chunk.js.map",
-    "index.html": "/meganRantzProject5/index.html",
-    "precache-manifest.b66cfff8d3f239325484768b6e322e2a.js": "/meganRantzProject5/precache-manifest.b66cfff8d3f239325484768b6e322e2a.js",
-    "service-worker.js": "/meganRantzProject5/service-worker.js",
-    "static/css/main.280ba3a8.chunk.css.map": "/meganRantzProject5/static/css/main.280ba3a8.chunk.css.map",
-    "static/js/2.a102beab.chunk.js.LICENSE.txt": "/meganRantzProject5/static/js/2.a102beab.chunk.js.LICENSE.txt",
-    "static/media/tsunDoka.png": "/meganRantzProject5/static/media/tsunDoka.c051595d.png",
-    "static/media/tsunDoka2.png": "/meganRantzProject5/static/media/tsunDoka2.27115788.png"
+    "main.css": "/tsundoku/static/css/main.280ba3a8.chunk.css",
+    "main.js": "/tsundoku/static/js/main.96f5ce82.chunk.js",
+    "main.js.map": "/tsundoku/static/js/main.96f5ce82.chunk.js.map",
+    "runtime-main.js": "/tsundoku/static/js/runtime-main.cb234485.js",
+    "runtime-main.js.map": "/tsundoku/static/js/runtime-main.cb234485.js.map",
+    "static/js/2.a8c0a5a7.chunk.js": "/tsundoku/static/js/2.a8c0a5a7.chunk.js",
+    "static/js/2.a8c0a5a7.chunk.js.map": "/tsundoku/static/js/2.a8c0a5a7.chunk.js.map",
+    "index.html": "/tsundoku/index.html",
+    "precache-manifest.84501b4da0e727bafbb0ef6e87396f14.js": "/tsundoku/precache-manifest.84501b4da0e727bafbb0ef6e87396f14.js",
+    "service-worker.js": "/tsundoku/service-worker.js",
+    "static/css/main.280ba3a8.chunk.css.map": "/tsundoku/static/css/main.280ba3a8.chunk.css.map",
+    "static/js/2.a8c0a5a7.chunk.js.LICENSE.txt": "/tsundoku/static/js/2.a8c0a5a7.chunk.js.LICENSE.txt",
+    "static/media/tsunDoka.png": "/tsundoku/static/media/tsunDoka.c051595d.png",
+    "static/media/tsunDoka2.png": "/tsundoku/static/media/tsunDoka2.27115788.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.a1e2914e.js",
-    "static/js/2.a102beab.chunk.js",
+    "static/js/runtime-main.cb234485.js",
+    "static/js/2.a8c0a5a7.chunk.js",
     "static/css/main.280ba3a8.chunk.css",
-    "static/js/main.70a37ee7.chunk.js"
+    "static/js/main.96f5ce82.chunk.js"
   ]
 }
