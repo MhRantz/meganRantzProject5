@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b07781ddbce8b18b3cdc8fb5ff0f0dbe",
+    "revision": "aa64831e3e0cb673633cbcbec1bd9bdf",
     "url": "/tsundoku/index.html"
   },
   {
-    "revision": "0a64ba0f5324bbc15ef8",
+    "revision": "716ebd5413e5b869204f",
     "url": "/tsundoku/static/css/main.280ba3a8.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tsundoku/static/js/2.a8c0a5a7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0a64ba0f5324bbc15ef8",
-    "url": "/tsundoku/static/js/main.96f5ce82.chunk.js"
+    "revision": "716ebd5413e5b869204f",
+    "url": "/tsundoku/static/js/main.eca1eb0f.chunk.js"
   },
   {
     "revision": "dbf6858e8e8c306289d8",
